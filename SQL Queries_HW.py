@@ -66,48 +66,45 @@ WHERE first_name = 'Harpo' AND last_name = 'WILLIAMS';
 UPDATE actor
 	SET first_name = 
 		CASE 
-			WHEN first_name = "HARPO"
-				THEN "GROUCHO"
-			ELSE "MUCHO GROUCHO"
+			WHEN first_name = 'HARPO'
+				THEN 'GROUCHO'
+			ELSE 'MUCHO GROUCHO'
 		END
 	WHERE actor_id = 172;
 
 -- 5a. Query to locate and re-create the schema of the address table
-
-
-
-
+SHOW CREATE TABLE address;
 
 -- 6a. Use JOIN to display the first and last names, as well as the address, of each staff member. Use the tables staff and address:
 SELECT first_name, last_name, address from staff s
 INNER JOIN address a ON s.address_id = a.address_id;
 
 -- 6b. Use JOIN to display the total amount rung up by each staff member in August of 2005. Use tables staff and payment.
-SELECT s.staff_id, first_name, last_name, SUM(amount) as "Total Amount Rung Up"
+SELECT s.staff_id, first_name, last_name, SUM(amount) as 'Total Amount Rung Up'
 FROM staff s
 INNER JOIN payment p 
 ON s.staff_id = p.staff_id
 GROUP BY s.staff_id;
 
 -- 6c. List each film and the number of actors who are listed for that film. Use tables film_actor and film. Use inner join.
-Select f.title, COUNT(fa.actor_id) as "Number of Actors"
+Select f.title, COUNT(fa.actor_id) as'Number of Actors'
 FROM film f
 LEFT JOIN film_actor fa
 ON f.film_id = fa.film_id
 GROUP BY f.film_id;
 
 -- 6d. How many copies of the film Hunchback Impossible exist in the inventory system?
-SELECT f.title, COUNT(i.inventory_id) as "# of Copies in Inventory"
+SELECT f.title, COUNT(i.inventory_id) as '# of Copies in Inventory'
 FROM film f
 INNER JOIN inventory i
 ON f.film_id = i.film_id
 GROUP BY f.film_id
-HAVING title = "Hunchback Impossible";
+HAVING title = 'Hunchback Impossible';
 
 -- 6e. Using the tables payment and customer and the JOIN command, list the total paid by each customer. 
 --     List the customers alphabetically by last name.	
 
-SELECT c.last_name, c.first_name, SUM(p.amount) as "Total Paid"
+SELECT c.last_name, c.first_name, SUM(p.amount) as 'Total Paid'
 FROM customer c
 INNER JOIN payment p
 ON c.customer_id = p.customer_id
@@ -123,7 +120,7 @@ WHERE language_id IN
 	(
 	SELECT language_id 
 	FROM language
-	WHERE name = "English"
+	WHERE name = 'English'
     )
 	AND (title LIKE "K%") OR (title LIKE "Q%");
     
@@ -138,7 +135,7 @@ WHERE actor_id IN
 		(
 		SELECT film_id
 		FROM film
-		WHERE title = "Alone Trip"
+		WHERE title = 'Alone Trip'
 		)
 	);
 
@@ -169,7 +166,7 @@ WHERE film_id IN
 	);
 
 -- 7e. Display the most frequently rented movies in descending order.
-SELECT f.title , COUNT(r.rental_id) AS "Count of Rentals" 
+SELECT f.title , COUNT(r.rental_id) AS 'Count of Rentals'
 FROM film f
 RIGHT JOIN inventory i
 ON f.film_id = i.film_id
@@ -179,7 +176,7 @@ GROUP BY f.title
 ORDER BY COUNT(r.rental_id) DESC;
 
 -- 7f. Write a query to display how much business, in dollars, each store brought in.
-SELECT s.store_id, sum(amount) as "Revenue" 
+SELECT s.store_id, sum(amount) as 'Revenue'
 FROM store s
 RIGHT JOIN staff st
 ON s.store_id = st.store_id
@@ -198,7 +195,7 @@ ON ci.country_id = co.country_id;
 
 -- 7h. List the top five genres in gross revenue in descending order. 
 --     use the tables: category, film_category, inventory, payment, and rental.
-SELECT c.name, sum(p.amount) as "Revenue per Category" FROM category c
+SELECT c.name, sum(p.amount) as 'Revenue per Category' FROM category c
 JOIN film_category fc
 ON c.category_id = fc.category_id
 JOIN inventory i
@@ -212,7 +209,7 @@ GROUP BY name;
 -- 8a. In your new role as an executive, you would like to have an easy way of viewing the Top five genres by gross revenue. 
 -- Use the solution from the problem above to create a view. If you haven't solved 7h, you can substitute another query to create a view.
 CREATE VIEW top_5_by_genre AS
-SELECT c.name, sum(p.amount) as "Revenue per Category" FROM category c
+SELECT c.name, sum(p.amount) as 'Revenue per Category' FROM category c
 JOIN film_category fc
 ON c.category_id = fc.category_id
 JOIN inventory i
